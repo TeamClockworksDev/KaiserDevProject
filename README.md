@@ -1,1 +1,1 @@
-# SmashBrosPrototype
+# Smash Bros Prototype
