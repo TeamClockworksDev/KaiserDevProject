@@ -12,16 +12,36 @@ public class CharacterControl : MonoBehaviour
     
     private Rigidbody _rigidbodyRef = null;
     private Animator _animatorRef = null;
-    
-    
+    private float dashtimer = 0;
+    public float dashtime = 0;
+    public bool leftright = true;
+    public float dashspeed = 5;
+    Vector3 DashPause = Vector3.zero;
+    private bool inAir = false;
     private void Start()
     {
         Init();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         DetectInput();
+        DashPause = transform.position;
+        if(dashtimer >0)
+        {  if (canJump == true) 
+            dashtimer -=Time.deltaTime;
+            
+            if (leftright == true)
+            {  DashPause.x += dashspeed*Time.deltaTime;
+              transform.localRotation = Quaternion.Euler(0, 90, 0);  
+            }  
+            else { DashPause.x -= dashspeed*Time.deltaTime;
+            transform.localRotation = Quaternion.Euler(0, -90, 0);
+                
+
+            }   
+            transform.position = DashPause;
+        }
     }
 
     private void Init()
@@ -44,6 +64,8 @@ public class CharacterControl : MonoBehaviour
             isMoving = true;
             currPosition.x += _movementSpeed * Time.deltaTime;
             transform.localRotation = Quaternion.Euler(0, 90, 0);
+            //Dash Right
+            leftright = true;
         }
         //Move Left
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
@@ -51,21 +73,30 @@ public class CharacterControl : MonoBehaviour
             isMoving = true;
             currPosition.x -= _movementSpeed * Time.deltaTime;
             transform.localRotation = Quaternion.Euler(0, -90, 0);
+            //Dash Left
+            leftright = false;
         }
-        
+            //Dash
+        if (Input.GetKeyDown(KeyCode.K)){
+                dashtimer = dashtime;
+        }
         //Apply Movement
         transform.position = currPosition;
         
         //Jump
         if (canJump)
         {
-            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 Vector3 currentVelocity = _rigidbodyRef.velocity;
                 currentVelocity.y += _jumpSpeed;
 
                 _rigidbodyRef.velocity = currentVelocity;
                 canJump = false;
+                if (inAir == false)
+                _animatorRef.SetTrigger("jumptrigger");
+
+                inAir = true;
             }
         }
         
@@ -73,23 +104,28 @@ public class CharacterControl : MonoBehaviour
         if (isMoving)
         {
             //_animatorRef.StopPlayback();
-            _animatorRef.Play("DebugAnimation_CharacterMovement");
+            //_animatorRef.Play("DebugAnimation_CharacterMovement");
         }
         else
         {
             //_animatorRef.StartPlayback();
-            _animatorRef.Play("DebugAnimation_CharacterIdle");
+            //_animatorRef.Play("DebugAnimation_CharacterIdle");
         }
+
+        _animatorRef.SetBool ("IsMoving",isMoving);
+        _animatorRef.SetBool ("canJump",canJump);
+        _animatorRef.SetBool ("inAir",inAir);
     }
     
-    private void OnCollisionEnter(Collision other)
+    private void OnCollisionStay(Collision other)
     {
         canJump = true;
+        inAir = false;
     }
 
     private void OnCollisionExit(Collision other)
     {
         //In case we walk off a ledge
-        canJump = true;
+        //canJump = true;
     }
 }

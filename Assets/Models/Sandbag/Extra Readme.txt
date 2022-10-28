@@ -1,0 +1,1 @@
+If he looks slightly off its because he had a godawful T-pose where he was stretched around into an S for some reason so I fixed it up into a more natural looking shape. In hindsight it probably would have been better to work from his regular pose.
