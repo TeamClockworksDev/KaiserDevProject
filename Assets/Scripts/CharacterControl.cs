@@ -79,6 +79,7 @@ public class CharacterControl : MonoBehaviour
             //Dash
         if (Input.GetKeyDown(KeyCode.K)){
                 dashtimer = dashtime;
+               _animatorRef.SetTrigger("dashtrigger");
         }
         //Apply Movement
         transform.position = currPosition;
@@ -115,9 +116,10 @@ public class CharacterControl : MonoBehaviour
         _animatorRef.SetBool ("IsMoving",isMoving);
         _animatorRef.SetBool ("canJump",canJump);
         _animatorRef.SetBool ("inAir",inAir);
+        _animatorRef.SetFloat ("dashtimer",dashtimer);
     }
     
-    private void OnCollisionStay(Collision other)
+    private void OnCollisionEnter(Collision other)
     {
         canJump = true;
         inAir = false;
