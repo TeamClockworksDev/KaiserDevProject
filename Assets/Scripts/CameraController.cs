@@ -41,20 +41,6 @@ public class CameraController : MonoBehaviour
 
     private void FollowCharacter()
     {
-        //Vector3 characterScreenPosition = _camera.WorldToScreenPoint(CharacterGoTransformRef.position);
-        //float newCamXPos = 0.0f;
         transform.position = Vector3.Lerp (transform.position,CharacterGoTransformRef.transform.position,5*Time.deltaTime);
-        //TODO - implement the logic for endWallMargin; we want the camera to speed up as the character gets closer to the screen's edge.
-        //followMargin = new Vector3(Screen.width*0.5f, Screen.height*0.5f, 0.0f).x;
-        //if (characterScreenPosition.x < followMargin-2)
-        //{
-            //newCamXPos -= followSpeed * Time.deltaTime;
-        //}
-        //else if (characterScreenPosition.x > (_screenSize.x - followMargin)+2)
-        //{
-            //newCamXPos += followSpeed * Time.deltaTime;
-        //}
-
-        //transform.position = Vector3.Lerp (transform.position, new Vector3(transform.position.x + newCamXPos, transform.position.y, transform.position.z), 5f*Time.deltaTime);
     }
 }
