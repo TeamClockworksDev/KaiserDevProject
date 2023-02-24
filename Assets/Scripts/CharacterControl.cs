@@ -83,7 +83,7 @@ public class CharacterControl : MonoBehaviour
         }
         //Apply Movement
         transform.position = currPosition;
-        
+
         //Jump
         if (canJump)
         {
