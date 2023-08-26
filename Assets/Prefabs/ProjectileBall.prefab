@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1365105678777322447}
   - component: {fileID: 409009571595084289}
   - component: {fileID: 5035905824770890}
+  - component: {fileID: 9001361003962695281}
   - component: {fileID: 6946684074458685898}
   m_Layer: 0
   m_Name: ProjectileBall
@@ -30,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 7485025577557557367}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
+  m_LocalScale: {x: 0.6, y: 0.2, z: 0.2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -64,7 +65,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d1deff00c5c1c044eb91471d4b2e70af, type: 2}
+  - {fileID: 2100000, guid: a0f7a877f535dbd4a9f4696b5b13951c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -112,6 +113,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 9
+--- !u!114 &9001361003962695281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7485025577557557367}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5ee058a82dd414daef147edbc25172, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  life: 1
 --- !u!54 &6946684074458685898
 Rigidbody:
   m_ObjectHideFlags: 0

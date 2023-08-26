@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
+    public static CharacterControl instance;
     [Header("Control Values")]
     [SerializeField] private float _movementSpeed = 1.0f;
     [SerializeField] private float _jumpSpeed = 1.0f;
@@ -18,13 +19,57 @@ public class CharacterControl : MonoBehaviour
     public float dashspeed = 5;
     Vector3 DashPause = Vector3.zero;
     private bool inAir = false;
+    public bool Grounded = false;
+    bool ShootState = false;
+    public float shootTimer = 0;
+    public KeyCode ShootKey = KeyCode.X;
     private void Start()
+    
     {
         Init();
+        instance = this;
     }
 
     private void Update()
-    {
+    
+    {   
+        //Shoot Animation
+        if (shootTimer >= 0){
+            shootTimer -= Time.deltaTime;
+        }
+          if (Input.GetKey(ShootKey)){
+            ShootState=true;
+            shootTimer=0.2f;
+        }
+        else if(shootTimer <=0){
+            ShootState=false;
+        }
+         _animatorRef.SetBool ("ShootState",ShootState);
+        
+        //Ground Detection
+        if (Physics.Raycast(transform.position, Vector3.down, 1.2f))
+        {   
+            Grounded=true;
+        
+        }
+        else
+        {
+            Grounded=false;
+        }
+        //Wall Slide
+        if (Grounded==false)
+        {
+            if(leftright==true && canJump==true)
+            {  
+                _rigidbodyRef.mass=4f;
+                _rigidbodyRef.velocity=new Vector3(_rigidbodyRef.velocity.x,-2, _rigidbodyRef.velocity.z);
+            }
+            else {
+                _rigidbodyRef.mass=6f;
+
+            }
+        } 
+        //Strafe Dash
         DetectInput();
         DashPause = transform.position;
         if(dashtimer >0)
@@ -87,7 +132,7 @@ public class CharacterControl : MonoBehaviour
         //Jump
         if (canJump)
         {
-            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 Vector3 currentVelocity = _rigidbodyRef.velocity;
                 currentVelocity.y += _jumpSpeed;
